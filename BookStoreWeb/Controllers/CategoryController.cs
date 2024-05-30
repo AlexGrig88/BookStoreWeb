@@ -9,7 +9,7 @@ namespace BookStoreWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly Regex _nameRegex = new Regex(@"[^а-яА-Я ]+");
+        private readonly Regex _nameRegex = new Regex(@"[а-яА-Я ]+");
         private readonly CategoryService _categoryService;
 
         public CategoryController(CategoryService categoryService)
@@ -38,6 +38,7 @@ namespace BookStoreWeb.Controllers
                 return View();
             }
             _categoryService.Add(category);
+            TempData["success"] = "Категория успешно создана.";     // данные, которые живут один цикл рендеринга страницы, удобно для оповещательных сообщений
             return RedirectToAction("Index");
         }
 
@@ -61,6 +62,7 @@ namespace BookStoreWeb.Controllers
                 return View();
             }
             _categoryService.Update(category);
+            TempData["success"] = "Категория успешно обновлена.";
             return RedirectToAction("Index");
         }
 
@@ -83,6 +85,7 @@ namespace BookStoreWeb.Controllers
             }
             var category = _categoryService.RemoveById(id.Value);
             if (category == null) { return NotFound(); }
+            TempData["success"] = "Категория успешно удалена.";
             return RedirectToAction("Index");
         }
     }
