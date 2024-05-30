@@ -25,5 +25,28 @@ namespace BookStoreWeb.Services
 		{
 			return _dbContext.Categories.FirstOrDefault(cat => cat.Id == id);  
 		}
-	}
+
+        internal void Update(Category category)
+        {
+            _dbContext.Categories.Update(category);
+            _dbContext.SaveChanges();
+        }
+
+        internal void Remove(Category category)
+        {
+            _dbContext?.Categories.Remove(category);
+            _dbContext.SaveChanges();
+        }
+
+        internal Category? RemoveById(int id)
+        {
+            Category? category = FindById(id);
+            if (category == null) {
+                return null;
+            }
+            _dbContext.Remove(category);
+            _dbContext.SaveChanges();
+            return category;
+        }
+    }
 }
